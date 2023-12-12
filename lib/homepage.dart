@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_ui/useravatar.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
+  Home({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
       backgroundColor: const Color.fromARGB(221, 23, 18, 18),
       body: Stack(
         children: [
@@ -22,7 +24,9 @@ class Home extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _globalKey.currentState!.openDrawer();
+                        },
                         color: Colors.white,
                         icon: Icon(Icons.menu)),
                     IconButton(
@@ -116,23 +120,23 @@ class Home extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
-                        BuildContactAvatar("angel"),
+                        BuildContactAvatar("senshi"),
+                        SizedBox(width: 20),
+                        BuildContactAvatar("princess"),
+                        SizedBox(width: 20),
+                        BuildContactAvatar("alice"),
+                        SizedBox(width: 20),
+                        BuildContactAvatar("anna"),
                         SizedBox(width: 20),
                         BuildContactAvatar("angel"),
                         SizedBox(width: 20),
-                        BuildContactAvatar("angel"),
+                        BuildContactAvatar("bob"),
                         SizedBox(width: 20),
-                        BuildContactAvatar("angel"),
+                        BuildContactAvatar("james"),
                         SizedBox(width: 20),
-                        BuildContactAvatar("angel"),
+                        BuildContactAvatar("George"),
                         SizedBox(width: 20),
-                        BuildContactAvatar("angel"),
-                        SizedBox(width: 20),
-                        BuildContactAvatar("angel"),
-                        SizedBox(width: 20),
-                        BuildContactAvatar("angel"),
-                        SizedBox(width: 20),
-                        BuildContactAvatar("angel"),
+                        BuildContactAvatar("bless"),
                         SizedBox(width: 20),
                       ],
                     ),
@@ -185,6 +189,114 @@ class Home extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: SizedBox(
+        height: 65,
+        width: 65,
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Color(0xFF27c1a9),
+          child: Icon(
+            Icons.edit_outlined,
+            size: 30,
+          ),
+        ),
+      ),
+      drawer: Drawer(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(40),
+                bottomRight: Radius.circular(40))),
+        width: 350,
+        backgroundColor: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            _globalKey.currentState!.closeDrawer();
+                          },
+                          color: Colors.white,
+                          icon: Icon(Icons.arrow_back_ios)),
+                      Text(
+                        "Settings",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 55,
+                  ),
+                  Row(
+                    children: [
+                      UserAvatar(filename: "james"),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        "Isaya Osward",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DrawerItems(
+                    globalKey: _globalKey,
+                    title: 'Account',
+                    icon: Icons.key,
+                  ),
+                  DrawerItems(
+                    globalKey: _globalKey,
+                    title: 'Chat',
+                    icon: Icons.chat_bubble,
+                  ),
+                  DrawerItems(
+                    globalKey: _globalKey,
+                    title: 'Notifications',
+                    icon: Icons.notifications,
+                  ),
+                  DrawerItems(
+                    globalKey: _globalKey,
+                    title: 'Data and Storage',
+                    icon: Icons.storage,
+                  ),
+                  DrawerItems(
+                    globalKey: _globalKey,
+                    title: 'Help',
+                    icon: Icons.help,
+                  ),
+                  Divider(
+                    height: 30,
+                  ),
+                  DrawerItems(
+                    globalKey: _globalKey,
+                    title: 'Invite a friend',
+                    icon: Icons.people_outline,
+                  ),
+                ],
+              ),
+              DrawerItems(
+                globalKey: _globalKey,
+                title: 'Log Out',
+                icon: Icons.logout,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -274,6 +386,45 @@ class Home extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class DrawerItems extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  const DrawerItems({
+    super.key,
+    required GlobalKey<ScaffoldState> globalKey,
+    required this.title,
+    required this.icon,
+  }) : _globalKey = globalKey;
+
+  final GlobalKey<ScaffoldState> _globalKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Row(
+        children: [
+          IconButton(
+              onPressed: () {
+                _globalKey.currentState!.closeDrawer();
+              },
+              color: Colors.white,
+              icon: Icon(icon)),
+          SizedBox(
+            width: 50,
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
